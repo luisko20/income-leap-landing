@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Maximize2, Minimize2 } from 'lucide-react';
 
 // The video duration is in seconds
 const VIDEO_DURATION = 60; // This is just for demonstration, as if video is 1 minute
@@ -11,6 +12,7 @@ const VideoPlayer = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [showButton, setShowButton] = useState(false);
   const [viewers, setViewers] = useState(187); // Initial viewers count
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
@@ -46,11 +48,15 @@ const VideoPlayer = () => {
     setIsPlaying(true);
   };
 
+  const toggleFullscreen = () => {
+    setIsFullscreen(prev => !prev);
+  };
+
   return (
-    <div className="w-full max-w-3xl mx-auto my-8 bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className={`w-full mx-auto my-8 bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 ${isFullscreen ? 'fixed inset-0 z-50 max-w-none m-0 rounded-none' : 'max-w-3xl'}`}>
       <div className="relative">
         {/* Video placeholder */}
-        <div className="bg-gray-800 aspect-video flex items-center justify-center">
+        <div className={`bg-gray-800 flex items-center justify-center ${isFullscreen ? 'h-screen' : 'aspect-video'}`}>
           {!isPlaying ? (
             <div className="text-center">
               <div className="text-white text-xl mb-4">ASSISTA O VÍDEO COMPLETO!</div>
@@ -78,9 +84,18 @@ const VideoPlayer = () => {
           <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse-slow mr-2"></div>
           <span>{viewers} pessoas assistindo agora</span>
         </div>
+
+        {/* Fullscreen toggle button */}
+        <button 
+          onClick={toggleFullscreen}
+          className="absolute top-4 left-4 bg-black/70 text-white p-2 rounded-full hover:bg-black/90 transition-all"
+          aria-label={isFullscreen ? "Sair da tela cheia" : "Entrar em tela cheia"}
+        >
+          {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+        </button>
       </div>
       
-      <div className="p-6 text-center">
+      <div className={`p-6 text-center ${isFullscreen ? 'absolute bottom-0 left-0 right-0 bg-white/90' : ''}`}>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">ASSISTA O VÍDEO COMPLETO!</h2>
         
         {showButton && (
