@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
 // The video duration is in seconds
 const VIDEO_DURATION = 60; // This is just for demonstration, as if video is 1 minute
-const SHOW_BUTTON_AFTER = 30; // Show button after 30 seconds for demo purposes (would be 7-10 minutes in production)
+const SHOW_BUTTON_AFTER = 30; // Show button after 30 seconds for demo purposes (would be 5 minutes in production)
 
 const VideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
